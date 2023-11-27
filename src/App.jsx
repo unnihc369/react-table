@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+// import Papa from "papaparse";
 
 const columns = [
   { field: "city", headerName: "City", width: 150 },
@@ -53,32 +54,32 @@ const TableWithSearchAndPDF = () => {
     });
   };
 
-  const downloadAsCSV = () => {
-    const csv = Papa.unparse(rows, {
-      header: true,
-    });
+  // const downloadAsCSV = () => {
+  //   const csv = Papa.unparse(rows, {
+  //     header: true,
+  //   });
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
+  //   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  //   const link = document.createElement("a");
 
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", "table.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
+  //   if (link.download !== undefined) {
+  //     const url = URL.createObjectURL(blob);
+  //     link.setAttribute("href", url);
+  //     link.setAttribute("download", "table.csv");
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   }
+  // };
 
   return (
     <div className="container">
       <button className="button" onClick={downloadAsPDF}>
         Download as PDF
       </button>
-      <button className="button" onClick={downloadAsCSV}>
+      {/* <button className="button" onClick={downloadAsCSV}>
         Download as CSV
-      </button>
+      </button> */}
       <div id="data-grid">
         <DataGrid
           rows={rows}
