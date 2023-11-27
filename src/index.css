@@ -1,0 +1,40 @@
+/* Add this styling in your CSS file or style section */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.button {
+  margin: 10px;
+  padding: 10px;
+  color: azure;
+  border: 0;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 3%, rgba(0, 212, 255, 1) 100%);
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#data-grid {
+  height: 400px;
+  width: 100%;
+}
+
+.MuiDataGrid-colCellTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.MuiDataGrid-cell {
+  font-size: 14px;
+}
