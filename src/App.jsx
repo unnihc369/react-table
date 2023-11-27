@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import { Box, Select, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-// import Papa from "papaparse";
 
 const columns = [
   { field: "city", headerName: "City", width: 150 },
@@ -15,9 +15,12 @@ const columns = [
   { field: "longitude", headerName: "Longitude", width: 150 },
 ];
 
-const fetchData = async () => {
-  const response = await fetch("https://randomuser.me/api/?results=20");
+const fetchData = async (numResults) => {
+  const response = await fetch(
+    `https://randomuser.me/api/?results=${numResults}`
+  );
   const data = await response.json();
+
   return data.results.map((result, index) => ({
     id: index + 1,
     city: result.location.city,
@@ -31,17 +34,18 @@ const fetchData = async () => {
   }));
 };
 
-const TableWithSearchAndPDF = () => {
+const App = () => {
   const [rows, setRows] = useState([]);
+  const [numResults, setNumResults] = useState(20);
 
   useEffect(() => {
     const getData = async () => {
-      const data = await fetchData();
+      const data = await fetchData(numResults);
       setRows(data);
     };
 
     getData();
-  }, []);
+  }, [numResults]);
 
   const downloadAsPDF = () => {
     const grid = document.getElementById("data-grid");
@@ -54,42 +58,32 @@ const TableWithSearchAndPDF = () => {
     });
   };
 
-  // const downloadAsCSV = () => {
-  //   const csv = Papa.unparse(rows, {
-  //     header: true,
-  //   });
-
-  //   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  //   const link = document.createElement("a");
-
-  //   if (link.download !== undefined) {
-  //     const url = URL.createObjectURL(blob);
-  //     link.setAttribute("href", url);
-  //     link.setAttribute("download", "table.csv");
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   }
-  // };
-
   return (
     <div className="container">
-      <button className="button" onClick={downloadAsPDF}>
-        Download as PDF
-      </button>
-      {/* <button className="button" onClick={downloadAsCSV}>
-        Download as CSV
-      </button> */}
-      <div id="data-grid">
+      <Box sx={{ marginBottom: 2 }}></Box>
+      <div className="flex">
+        <button className="button" onClick={downloadAsPDF}>
+          Download as PDF
+        </button>
+        <Select
+          value={numResults}
+          onChange={(e) => setNumResults(Number(e.target.value))}
+        >
+          <MenuItem value={20}>20 Users</MenuItem>
+          <MenuItem value={50}>50 Users</MenuItem>
+        </Select>
+      </div>
+      <Box id="data-grid">
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5, 10, 20]}
+          className="data-rows"
         />
-      </div>
+      </Box>
     </div>
   );
 };
 
-export default TableWithSearchAndPDF;
+export default App;
